@@ -1,0 +1,42 @@
+Quick printing (no formatting) of the current view:
+Currently Windows ONLY. [Note: the Console will flash 
+open on starting ST. It also adds a .txt file to the 
+users' TEMP folder.]
+
+First, SHARE YOUR PRINTER;
+Make a note of your computer-name and the printer-name;
+Add these values to the package settings (although the 
+computer-name can be omitted);
+The print option appears in the context-menu, or you 
+can add a key-binding for the command "quick_print".
+[I prefer to use the context-menu because, if it 
+appears in the file menu, then users would probably 
+anticipate a dialog or print-preview to appear.]
+
+In the settings you can optionally specify:
+how many blank lines to add at the top of each page;
+number of spaces to be added on the left;
+the number of lines to print per page.
+
+If you explicitly state the number of lines to 
+print per page then this makes it possible to 
+create headers and footers, although this is not 
+currently implemented.
+
+Possible TODOs:
+Find the equivalent Linux/Apple dos-commands(?);
+Ability to print selection, or multi-select;
+Specifying (approximate) page-range to print;
+Settings for alternative port (from LPT1) and 
+number of blank lines at bottom of each page;
+Setting for the number of characters per line;
+Headers and Footers, particularly page numbers.
+
+It would be possible to create an approximation 
+to a print preview:
+create a read-only view; 
+temporarily change to a simple-white theme;
+use dashes or underlines to indicate page-ends;
+include the header/footer info;
+show the input panel so the user can press Enter 
+to print, or specify a page-range before printing.
