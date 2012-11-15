@@ -40,3 +40,7 @@ use dashes or underlines to indicate page-ends;
 include the header/footer info;
 show the input panel so the user can press Enter 
 to print, or specify a page-range before printing.
+
+NOTE: You can specify a .PDF creator such as 
+PrimoPDF as your printer but you will usually 
+have to modify its preferences to accept TEXT.
