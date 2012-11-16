@@ -1,7 +1,10 @@
 {
     "comp_name": "ANDYCOMPAQ",
-    "default_printer": "PrimoPDF",
+    "printer_name": "PrimoPDF",
     "blank_lines_head": 3,
     "spaces_left": 4,
-    "lines_ppage": 80
+    "lines_ppage": 80,
+    "page_nos": 2
+    // Number of blank lines to add after lines_ppage before 
+    // the page number. Omitted or false will not add page-numbering.
 }

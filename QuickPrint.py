@@ -3,11 +3,11 @@ import os, subprocess, tempfile
 
 PACKAGE_SETTINGS = "QuickPrint.sublime-settings"
 
-DEF_COMPUTER = sublime.load_settings(PACKAGE_SETTINGS).get("comp_name", \
+COMPUTER = sublime.load_settings(PACKAGE_SETTINGS).get("comp_name", \
     False)
-if not DEF_COMPUTER:
-    DEF_COMPUTER = os.environ['COMPUTERNAME']
-DEF_PRINTER = sublime.load_settings(PACKAGE_SETTINGS).get("default_printer", \
+if not COMPUTER:
+    COMPUTER = os.environ['COMPUTERNAME']
+PRINTER = sublime.load_settings(PACKAGE_SETTINGS).get("printer_name", \
     "Microsoft XPS Document Printer")
 # Advanced, Print Processor.. Text (from RAW) for PrimoPDF
 
@@ -17,8 +17,10 @@ BLANK_HEAD = sublime.load_settings(PACKAGE_SETTINGS).get("blank_lines_head", \
     False)
 SPACES_LEFT = sublime.load_settings(PACKAGE_SETTINGS).get("spaces_left", \
     False)
+PAGE_NOS = sublime.load_settings(PACKAGE_SETTINGS).get("page_nos", \
+    False)
 
-init_printer = "net use lpt1 \\\\" + DEF_COMPUTER + "\\" + DEF_PRINTER + \
+init_printer = "net use lpt1 \\\\" + COMPUTER + "\\" + PRINTER + \
     " /persistent:yes"
 
 try:
@@ -47,7 +49,7 @@ class QuickPrint(sublime_plugin.WindowCommand):
                 vw_filename = vw_base
             vw_filename = tempd + os.sep + vw_filename
             tempf = open(vw_filename, 'w')
-            x = 0
+            x = 0; page = 1
             if BLANK_HEAD is not False:
                 tempf.write('\n' * BLANK_HEAD)
                 x = x + BLANK_HEAD
@@ -55,6 +57,12 @@ class QuickPrint(sublime_plugin.WindowCommand):
             toPrint = sel if not sel.empty() else sublime.Region(0, vw.size())
             for line in vw.split_by_newlines(toPrint):
                 if x and LINES_PPAGE and (x % LINES_PPAGE) == 0:
+                    # between pages..
+                    if PAGE_NOS is not False:
+                        tempf.write('\n' * PAGE_NOS)
+                        tempf.write(" " * SPACES_LEFT)
+                        tempf.write("%d" % page)
+                        page += 1
                     tempf.write('\f')
                     if BLANK_HEAD is not False:
                         tempf.write('\n' * BLANK_HEAD)
