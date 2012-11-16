@@ -2,10 +2,13 @@ import sublime, sublime_plugin
 import os, subprocess, tempfile
 
 PACKAGE_SETTINGS = "QuickPrint.sublime-settings"
+PLATFORM = sublime.platform()   # may be "osx", "linux" or "windows"
 
 COMPUTER = sublime.load_settings(PACKAGE_SETTINGS).get("comp_name", \
     os.environ['COMPUTERNAME'])
 PRINTER = sublime.load_settings(PACKAGE_SETTINGS).get("printer_name", False)
+# osx or linux:
+QUEUE = sublime.load_settings(PACKAGE_SETTINGS).get("queue", False)
 
 LINES_PPAGE = sublime.load_settings(PACKAGE_SETTINGS).get("lines_ppage", \
     False)
@@ -84,10 +87,23 @@ class QuickPrint(sublime_plugin.WindowCommand):
                 tempf.write(vw.substr(line) + '\n')
                 x = x + 1
             tempf.close()
-            vw_filename = vw_filename.replace(' ', '_')
-            #os.system('type system_ex.txt > LPT1')
-            subprocess.call("type " + vw_filename.replace('\\', '\\\\') + \
-                " > LPT1", shell=True)
+            vw_filename = vw_filename.replace(' ', '_').replace('\\', '\\\\')
+            if PLATFORM == "windows":
+                #os.system('type system_ex.txt > LPT1')
+                subprocess.call("type " + vw_filename + " > LPT1", shell=True)
+            elif PLATFORM == "osx":
+                # lp -d <queue name> <name of document>
+                # lp <name of document> will send to default printer(?)
+                if QUEUE is not False:
+                    subprocess.call("lp -d " + QUEUE + " " + vw_filename)
+                else:
+                    subprocess.call("lp " + vw_filename)
+            elif PLATFORM == "linux":
+                if QUEUE is not False:
+                    subprocess.call("lpr -P " + QUEUE + " " + vw_filename)
+                else:
+                    subprocess.call("lpr " + vw_filename)
+
         else:
             sublime.status_message('Printer not configured correctly.')
 
