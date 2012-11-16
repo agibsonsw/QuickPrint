@@ -36,8 +36,7 @@ Possible TODOs:
 Find the equivalent Linux/Apple dos-commands(?);
 Ability to print multi-select;
 Specifying (approximate) page-range to print;
-Settings for alternative port (from LPT1) and 
-number of blank lines at bottom of each page;
+Settings for alternative port (from LPT1);
 Setting for the number of characters per line;
 Headers and Footers, particularly page numbers.
 
