@@ -22,7 +22,10 @@ have to modify its preferences to accept TEXT.
 In the settings you can optionally specify:
 how many blank lines to add at the top of each page;
 number of spaces to be added on the left;
-the number of lines to print per page.
+the number of lines to print per page;
+How many blank lines (at the bottom) before printing 
+the page number. (If omitted, or false, the page 
+numbers will not be added.)
 
 If you explicitly state the number of lines to 
 print per page then this makes it possible to 
