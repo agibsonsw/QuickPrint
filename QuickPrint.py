@@ -4,12 +4,8 @@ import os, subprocess, tempfile
 PACKAGE_SETTINGS = "QuickPrint.sublime-settings"
 
 COMPUTER = sublime.load_settings(PACKAGE_SETTINGS).get("comp_name", \
-    False)
-if not COMPUTER:
-    COMPUTER = os.environ['COMPUTERNAME']
-PRINTER = sublime.load_settings(PACKAGE_SETTINGS).get("printer_name", \
-    "Microsoft XPS Document Printer")
-# Advanced, Print Processor.. Text (from RAW) for PrimoPDF
+    os.environ['COMPUTERNAME'])
+PRINTER = sublime.load_settings(PACKAGE_SETTINGS).get("printer_name", False)
 
 LINES_PPAGE = sublime.load_settings(PACKAGE_SETTINGS).get("lines_ppage", \
     False)
@@ -19,20 +15,36 @@ SPACES_LEFT = sublime.load_settings(PACKAGE_SETTINGS).get("spaces_left", \
     False)
 PAGE_NOS = sublime.load_settings(PACKAGE_SETTINGS).get("page_nos", \
     False)
+if PAGE_NOS is not False and not str(PAGE_NOS).isdigit():
+    # if this setting is present it must be a number
+    PAGE_NOS = False
 
-init_printer = "net use lpt1 \\\\" + COMPUTER + "\\" + PRINTER + \
-    " /persistent:yes"
+if PRINTER is not False and " " in PRINTER:
+    # the printer name needs to be quoted if it contains any spaces 
+    init_printer = "net use lpt1 \\\\" + COMPUTER + "\\" + \
+    '""' + PRINTER + '""' + "/persistent:yes"
+elif PRINTER is not False:
+    init_printer = "net use lpt1 \\\\" + COMPUTER + "\\" + PRINTER + \
+        " /persistent:yes"
+else:
+    init_printer = False
 
 try:
+    # use LPT1 if available
     subprocess.check_call("net use lpt1", shell=False)
     init_printer = True
 except subprocess.CalledProcessError:
     # printer not yet assigned
     try:
-        subprocess.check_call(init_printer, shell=False)
-        init_printer = True
+        if init_printer is not False:
+            subprocess.check_call(init_printer, shell=False)
+            init_printer = True
     except subprocess.CalledProcessError:
         sublime.status_message('Printer not configured correctly.')
+        init_printer = False
+    except Exception:
+        # some unexpected problem..
+        sublime.status_message('A system error occurred.')
         init_printer = False
 
 class QuickPrint(sublime_plugin.WindowCommand):
@@ -72,6 +84,7 @@ class QuickPrint(sublime_plugin.WindowCommand):
                 tempf.write(vw.substr(line) + '\n')
                 x = x + 1
             tempf.close()
+            vw_filename = vw_filename.replace(' ', '_')
             #os.system('type system_ex.txt > LPT1')
             subprocess.call("type " + vw_filename.replace('\\', '\\\\') + \
                 " > LPT1", shell=True)
