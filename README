@@ -20,7 +20,10 @@ the queue or printer name.
 
 You will possibly have to configure your printers' 
 settings to accept TEXT input, particularly if 
-printing to a .pdf generator.
+printing to a .pdf generator. On Windows you can 
+use the setting "use_notepad": true; in which case 
+it will use your default printer without requiring 
+any configuration!
 
 The print option appears in the context-menu, or you 
 can add a key-binding for the command "quick_print".
