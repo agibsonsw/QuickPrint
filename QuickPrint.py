@@ -10,6 +10,7 @@ PRINTER = sublime.load_settings(PACKAGE_SETTINGS).get("printer_name", False)
 # osx or linux:
 QUEUE = sublime.load_settings(PACKAGE_SETTINGS).get("queue", False)
 WPORT = sublime.load_settings(PACKAGE_SETTINGS).get("windows_port", "LPT1")
+NOTEPAD = sublime.load_settings(PACKAGE_SETTINGS).get("use_notepad", False)
 FILE_TITLE = sublime.load_settings(PACKAGE_SETTINGS).get("file_as_title", \
     False)
 LINES_PPAGE = sublime.load_settings(PACKAGE_SETTINGS).get("lines_ppage", False)
@@ -22,18 +23,20 @@ if PAGE_NOS is not False and not str(PAGE_NOS).isdigit():
     PAGE_NOS = False
 LINE_NOS = sublime.load_settings(PACKAGE_SETTINGS).get("line_nos", False)
 
-if PRINTER is not False and " " in PRINTER:
-    # the printer name needs to be quoted if it contains any spaces 
-    printer_cmd = "net use " + WPORT + " \\\\" + COMPUTER + "\\" + \
-    '""' + PRINTER + '""' + "/persistent:yes"
-elif PRINTER is not False:
-    printer_cmd = "net use " + WPORT + " \\\\" + COMPUTER + "\\" + PRINTER + \
-        " /persistent:yes"
+if PLATFORM == "windows":
+    if NOTEPAD is False:
+        if PRINTER is not False and " " in PRINTER:
+            # the printer name needs to be quoted if it contains any spaces 
+            printer_cmd = "net use " + WPORT + " \\\\" + COMPUTER + "\\" + \
+            '""' + PRINTER + '""' + "/persistent:yes"
+        elif PRINTER is not False:
+            printer_cmd = "net use " + WPORT + " \\\\" + COMPUTER + "\\" + PRINTER + \
+                " /persistent:yes"
 else:
     printer_cmd = ""
 
 init_printer = True
-if PLATFORM == "windows":
+if PLATFORM == "windows" and NOTEPAD is False:
     try:
         # use LPT1 if available
         subprocess.check_call("net use " + WPORT, shell=False)
@@ -68,7 +71,9 @@ class QuickPrint(sublime_plugin.WindowCommand):
                 vw_filename = vw_firstbase + '.txt'
             else:
                 vw_filename = vw_base
+            vw_filename = vw_filename.replace(' ', '_')
             vw_filename = tempfile.gettempdir() + os.sep + vw_filename
+            vw_filename = vw_filename.replace('\\', '\\\\')
             tempf = open(vw_filename, 'w')
             x = 0; page = 1
             if add_title:
@@ -104,11 +109,13 @@ class QuickPrint(sublime_plugin.WindowCommand):
                 tempf.write(vw.substr(line) + '\n')
                 x = x + 1
             tempf.close()
-            vw_filename = vw_filename.replace(' ', '_').replace('\\', '\\\\')
             if PLATFORM == "windows":
-                #os.system('type system_ex.txt > LPT1')
-                subprocess.call("type " + vw_filename + " > " + WPORT, \
-                    shell=True)
+                if NOTEPAD is True:
+                    subprocess.call("NOTEPAD /P " + vw_filename)
+                else:
+                    #os.system('type system_ex.txt > LPT1')
+                    subprocess.call("type " + vw_filename + " > " + WPORT, \
+                        shell=True)
             elif PLATFORM == "osx":
                 # lp -d <queue name> <name of document>
                 # lp <name of document> will send to default printer(?)
@@ -129,6 +136,9 @@ class QuickPrintReset(sublime_plugin.WindowCommand):
         global init_printer
         if PLATFORM != "windows":
             sublime.status_message('Command only applies to Windows.')
+            return
+        elif NOTEPAD is True:
+            sublime.status_message('Does not apply when using Notepad.')
             return
         init_printer = False
         try:

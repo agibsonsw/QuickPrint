@@ -4,6 +4,8 @@
     //"printer_name": "Canon",
     //"queue": "your_queue_name", for osx and linux
     //"windows_port": "LPT1",
+    "use_notepad": true,
+    // use the print option via Notepad to default printer
     "file_as_title": true,
     // start with the full file-name (on the first page)
     "blank_lines_head": 4,
