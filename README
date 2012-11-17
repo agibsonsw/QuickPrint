@@ -1,31 +1,41 @@
-Quick printing (no formatting) of the current view:
-Currently Windows ONLY. [Note: the Console will flash 
-open on starting ST. It also adds a .txt file to the 
-users' TEMP folder for each view printed.]
+Quick printing (no formatting) of the current view, 
+or current selection (if any). There are settings 
+to add blank lines at the top or bottom, indent from 
+the left, start with the filename and add page or 
+line numbers.
 
-Will print the entire view or current selection if any.
+[Note: On Windows the Console will flash open 
+on occasion.]
+[.txt files are added to the users' TEMP folder 
+for each view printed.]
 
-First, SHARE YOUR PRINTER;
-Make a note of your computer-name and the printer-name;
-Add these values to the package settings (although the 
-computer-name can be omitted);
+SETUP: SHARE YOUR PRINTER (important);
+Windows: Make a note of your computer-name and the 
+printer-name. Add these values to the package settings 
+(although the computer-name can be omitted);
+linux/osx: It should print to the default printer, 
+although you can specify a "queue" setting - being 
+the queue or printer name.
+
+You will possibly have to configure your printers' 
+settings to accept TEXT input, particularly if 
+printing to a .pdf generator.
+
 The print option appears in the context-menu, or you 
 can add a key-binding for the command "quick_print".
 [I prefer to use the context-menu because, if it 
 appears in the file menu, then users would probably 
 anticipate a dialog or print-preview to appear.]
 
-NOTE: You can specify a .PDF creator such as 
-PrimoPDF as your printer but you will usually 
-have to modify its preferences to accept TEXT.
-
 In the settings you can optionally specify:
 how many blank lines to add at the top of each page;
+whether to start printing with the full filename;
 number of spaces to be added on the left;
 the number of lines to print per page;
 How many blank lines (at the bottom) before printing 
 the page number. (If omitted, or false, the page 
-numbers will not be added.)
+numbers will not be added.);
+whether to print line numbers.
 
 If you explicitly state the number of lines to 
 print per page then this makes it possible to 
@@ -34,15 +44,14 @@ currently implemented.
 
 There is also a "quick_print_reset" command (for 
 Windows only) which reassigns LPT1 to the named 
-printer.
+printer. I use a key-binding for this.
 
 Possible TODOs:
-Find the equivalent Linux/Apple dos-commands(?);
 Ability to print multi-select;
 Specifying (approximate) page-range to print;
 Settings for alternative port (from LPT1);
 Setting for the number of characters per line;
-Headers and Footers, particularly page numbers.
+Configure headers and footers.
 
 It would be possible to create an approximation 
 to a print preview:
