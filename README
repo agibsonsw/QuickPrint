@@ -12,7 +12,8 @@ for each view printed.]
 SETUP: SHARE YOUR PRINTER (important);
 Windows: Make a note of your computer-name and the 
 printer-name. Add these values to the package settings 
-(although the computer-name can be omitted);
+(although the computer-name can be omitted). In the 
+settings you can also specify a port other than LPT1.
 linux/osx: It should print to the default printer, 
 although you can specify a "queue" setting - being 
 the queue or printer name.

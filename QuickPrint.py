@@ -9,7 +9,7 @@ COMPUTER = sublime.load_settings(PACKAGE_SETTINGS).get("comp_name", \
 PRINTER = sublime.load_settings(PACKAGE_SETTINGS).get("printer_name", False)
 # osx or linux:
 QUEUE = sublime.load_settings(PACKAGE_SETTINGS).get("queue", False)
-
+WPORT = sublime.load_settings(PACKAGE_SETTINGS).get("windows_port", "LPT1")
 FILE_TITLE = sublime.load_settings(PACKAGE_SETTINGS).get("file_as_title", \
     False)
 LINES_PPAGE = sublime.load_settings(PACKAGE_SETTINGS).get("lines_ppage", False)
@@ -24,10 +24,10 @@ LINE_NOS = sublime.load_settings(PACKAGE_SETTINGS).get("line_nos", False)
 
 if PRINTER is not False and " " in PRINTER:
     # the printer name needs to be quoted if it contains any spaces 
-    printer_cmd = "net use lpt1 \\\\" + COMPUTER + "\\" + \
+    printer_cmd = "net use " + WPORT + " \\\\" + COMPUTER + "\\" + \
     '""' + PRINTER + '""' + "/persistent:yes"
 elif PRINTER is not False:
-    printer_cmd = "net use lpt1 \\\\" + COMPUTER + "\\" + PRINTER + \
+    printer_cmd = "net use " + WPORT + " \\\\" + COMPUTER + "\\" + PRINTER + \
         " /persistent:yes"
 else:
     printer_cmd = ""
@@ -36,7 +36,7 @@ init_printer = True
 if PLATFORM == "windows":
     try:
         # use LPT1 if available
-        subprocess.check_call("net use lpt1", shell=False)
+        subprocess.check_call("net use " + WPORT, shell=False)
     except subprocess.CalledProcessError:
         # printer not yet assigned
         try:
@@ -59,6 +59,8 @@ class QuickPrint(sublime_plugin.WindowCommand):
                 vw_title = vw.file_name()
                 if vw_title != '':
                     add_title = True
+                    if len(vw_title) > 80:
+                        vw_title = '...' + vw_title[40:]
             vw_filename = vw.file_name() or 'quickprinttemp.txt'
             vw_base = os.path.basename(vw_filename)
             vw_firstbase, vw_ext = os.path.splitext(vw_base)
@@ -105,7 +107,8 @@ class QuickPrint(sublime_plugin.WindowCommand):
             vw_filename = vw_filename.replace(' ', '_').replace('\\', '\\\\')
             if PLATFORM == "windows":
                 #os.system('type system_ex.txt > LPT1')
-                subprocess.call("type " + vw_filename + " > LPT1", shell=True)
+                subprocess.call("type " + vw_filename + " > " + WPORT, \
+                    shell=True)
             elif PLATFORM == "osx":
                 # lp -d <queue name> <name of document>
                 # lp <name of document> will send to default printer(?)
@@ -130,7 +133,7 @@ class QuickPrintReset(sublime_plugin.WindowCommand):
         init_printer = False
         try:
             # check if LPT1 available
-            subprocess.check_call("net use lpt1", shell=False)
+            subprocess.check_call("net use " + WPORT, shell=False)
         except subprocess.CalledProcessError:
             # printer not yet assigned
             try:
@@ -145,7 +148,7 @@ class QuickPrintReset(sublime_plugin.WindowCommand):
         else:
             try:
                 # change printer assignment
-                subprocess.check_call("net use LPT1: /d", shell=False)
+                subprocess.check_call("net use " + WPORT + ": /d", shell=False)
                 subprocess.check_call(printer_cmd, shell=False)
                 init_printer = True
                 sublime.status_message("Printer re-assigned.")

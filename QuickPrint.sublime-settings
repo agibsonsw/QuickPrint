@@ -1,12 +1,14 @@
 {
     "comp_name": "ANDYCOMPAQ",
     "printer_name": "PrimoPDF",
+    //"printer_name": "Canon",
     //"queue": "your_queue_name", for osx and linux
+    //"windows_port": "LPT1",
     "file_as_title": true,
     // start with the full file-name (on the first page)
-    "blank_lines_head": 3,
+    "blank_lines_head": 4,
     "spaces_left": 4,
-    "lines_ppage": 80,
+    "lines_ppage": 84,
     "page_nos": 2,
     // Number of blank lines to add after lines_ppage before 
     // the page number. Omitted or false will not add page-numbering.
