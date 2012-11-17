@@ -1,7 +1,9 @@
 {
     "comp_name": "ANDYCOMPAQ",
     "printer_name": "PrimoPDF",
-    //"queue": "your_queue_name", // for osx and linux
+    //"queue": "your_queue_name", for osx and linux
+    "file_as_title": true,
+    // start with the full file-name (on the first page)
     "blank_lines_head": 3,
     "spaces_left": 4,
     "lines_ppage": 80,
