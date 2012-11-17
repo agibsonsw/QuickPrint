@@ -20,6 +20,7 @@ PAGE_NOS = sublime.load_settings(PACKAGE_SETTINGS).get("page_nos", False)
 if PAGE_NOS is not False and not str(PAGE_NOS).isdigit():
     # if this setting is present it must be a (whole) number
     PAGE_NOS = False
+LINE_NOS = sublime.load_settings(PACKAGE_SETTINGS).get("line_nos", False)
 
 if PRINTER is not False and " " in PRINTER:
     # the printer name needs to be quoted if it contains any spaces 
@@ -94,6 +95,9 @@ class QuickPrint(sublime_plugin.WindowCommand):
                         x = x + BLANK_HEAD
                 if SPACES_LEFT is not False:
                     tempf.write(" " * SPACES_LEFT)
+                if LINE_NOS:
+                    lineno, _ = vw.rowcol(line.begin())
+                    tempf.write("%4d  " % (lineno + 1))
                 tempf.write(vw.substr(line) + '\n')
                 x = x + 1
             tempf.close()
