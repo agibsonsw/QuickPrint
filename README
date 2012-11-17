@@ -32,6 +32,10 @@ print per page then this makes it possible to
 create headers and footers, although this is not 
 currently implemented.
 
+There is also a "quick_print_reset" command (for 
+Windows only) which reassigns LPT1 to the named 
+printer.
+
 Possible TODOs:
 Find the equivalent Linux/Apple dos-commands(?);
 Ability to print multi-select;
