@@ -70,12 +70,13 @@ class QuickPrint(sublime_plugin.WindowCommand):
             tempf = open(vw_filename, 'w')
             x = 0; page = 1
             if add_title:
+                tempf.write('\n')
                 tempf.write(" " * SPACES_LEFT)
                 tempf.write(vw_title + '\n\n')
-                x = x + 2
+                x = x + 3
                 if BLANK_HEAD is not False and BLANK_HEAD > 2:
-                    tempf.write('\n' * (BLANK_HEAD - 2))
-                    x = x + (BLANK_HEAD - 2)
+                    tempf.write('\n' * (BLANK_HEAD - 3))
+                    x = x + (BLANK_HEAD - 3)
             elif BLANK_HEAD is not False:
                 tempf.write('\n' * BLANK_HEAD)
                 x = x + BLANK_HEAD
