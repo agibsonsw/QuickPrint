@@ -94,21 +94,22 @@ class QuickPrint(sublime_plugin.WindowCommand):
             toPrint = sel if not sel.empty() else sublime.Region(0, vw.size())
             for line in vw.split_by_newlines(toPrint):
                 if x and LINES_PPAGE and (x % LINES_PPAGE) == 0:
-                    # between pages..
-                    if PAGE_NOS is not False:
-                        tempf.write('\n' * PAGE_NOS)
-                        tempf.write(" " * SPACES_LEFT)
-                        tempf.write("%d" % page)
-                        page += 1
-                    tempf.write('\f')
-                    if BLANK_HEAD is not False:
-                        tempf.write('\n' * BLANK_HEAD)
-                        x = x + BLANK_HEAD
+                    if not NOTEPAD:
+                        # between pages..
+                        if PAGE_NOS is not False:
+                            tempf.write('\n' * PAGE_NOS)
+                            tempf.write(" " * SPACES_LEFT)
+                            tempf.write("%d" % page)
+                            page += 1
+                        tempf.write('\f')
+                        if BLANK_HEAD is not False:
+                            tempf.write('\n' * BLANK_HEAD)
+                            x = x + BLANK_HEAD
                 if SPACES_LEFT is not False:
                     tempf.write(" " * SPACES_LEFT)
                 if LINE_NOS:
                     lineno, _ = vw.rowcol(line.begin())
-                    tempf.write("%4d  " % (lineno + 1))
+                    tempf.write("%3d  " % (lineno + 1))
                 tempf.write(vw.substr(line) + '\n')
                 x = x + 1
             tempf.close()
