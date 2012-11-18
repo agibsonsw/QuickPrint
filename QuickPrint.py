@@ -111,7 +111,8 @@ class QuickPrint(sublime_plugin.WindowCommand):
             tempf.close()
             if PLATFORM == "windows":
                 if NOTEPAD is True:
-                    subprocess.call("NOTEPAD /P " + vw_filename)
+                    subprocess.call("NOTEPAD /P " + vw_filename, shell=True)
+                    #"%ProgramFiles%\Windows NT\Accessories\wordpad.exe"
                 else:
                     #os.system('type system_ex.txt > LPT1')
                     subprocess.call("type " + vw_filename + " > " + WPORT, \
@@ -167,3 +168,12 @@ class QuickPrintReset(sublime_plugin.WindowCommand):
             except Exception as e:
                 sublime.status_message('A system error occurred.')
                 print(sys.exc_info())
+
+# WORDPAD /P whatever.rtf
+# will open whatever.rtf in Wordpad and then open the "Print" dialog.
+
+# Unlike WORDPAD, Wordpad does have a /PT switch:
+
+# WORDPAD /PT whatever.rtf MyPrinter
+# will open whatever.rtf in Wordpad, print whatever.rtf on the printer named 
+# MyPrinter and then close Wordpad again.
