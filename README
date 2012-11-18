@@ -41,30 +41,13 @@ the page number. (If omitted, or false, the page
 numbers will not be added.);
 whether to print line numbers.
 
-If you explicitly state the number of lines to 
-print per page then this makes it possible to 
-create headers and footers, although this is not 
-currently implemented.
+Using my_cmd and my_cmd_end you can configure your 
+own command-line to be applied to the temporary 
+.txt file that is generated. Perhaps to use Wordpad, 
+or add command-line arguments for an application or 
+pdf creator.
 
 There is also a "quick_print_reset" command (for 
-Windows only) which reassigns LPT1 to the named 
-printer. I use a key-binding for this.
-
-Possible TODOs:
-Ability to print multi-select;
-Specifying (approximate) page-range to print;
-Settings for alternative port (from LPT1);
-Setting for the number of characters per line;
-Configure headers and footers.
-
-It would be possible to create an approximation 
-to a print preview:
-create a read-only view; 
-temporarily change to a simple-white theme;
-use dashes or underlines to indicate page-ends;
-include the header/footer info;
-show the input panel so the user can press Enter 
-to print, or specify a page-range before printing.
-However, I may not pursue this as it wouldn't 
-look that great, or behave like a proper print-
-preview.
+Windows only) which reassigns LPT1 (or your chosen 
+port) to your named printer. I use a key-binding 
+to run this command.
