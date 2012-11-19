@@ -1,11 +1,12 @@
 import sublime, sublime_plugin
-import os, subprocess, tempfile, sys
+import socket, os, subprocess, tempfile, sys
 
 PACKAGE_SETTINGS = "QuickPrint.sublime-settings"
 PLATFORM = sublime.platform()   # may be "osx", "linux" or "windows"
 
 COMPUTER = sublime.load_settings(PACKAGE_SETTINGS).get("comp_name", \
-    os.environ['COMPUTERNAME'])
+    socket.gethostname())
+# os.environ['COMPUTERNAME'] is not cross-platform
 PRINTER = sublime.load_settings(PACKAGE_SETTINGS).get("printer_name", False)
 # osx or linux:
 QUEUE = sublime.load_settings(PACKAGE_SETTINGS).get("queue", False)
