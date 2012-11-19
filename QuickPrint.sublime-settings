@@ -1,10 +1,14 @@
 {
-    "comp_name": "ANDYCOMPAQ",
-    "printer_name": "PrimoPDF",
-    //"queue": "your_queue_name", // for osx and linux
+    // Windows only
+    //"comp_name": "ANDYCOMPAQ",
+    //"printer_name": "PrimoPDF",
     //"windows_port": "LPT1",
     //"use_notepad": true,
     // use the print option via Notepad to default printer
+
+    // OSX and Linux (optional)
+    //"queue": "your_queue_name",
+    
     //"file_as_title": true,
     // start with the full file-name (on the first page)
     //"blank_lines_head": 4,
@@ -14,10 +18,12 @@
     // Number of blank lines to add after lines_ppage before 
     // the page number. Omitted or false will not add page-numbering.
     "line_nos": true
+
     // You can create your own command-line using 'my_cmd' and 'my_cmd_end'.
     // "my_cmd": "WORDPAD /PT ",
     // "my_cmd_end": " YourPrinterName"
     // will open the file in Wordpad and print it to your named printer.
+    // (Wordpad needs to be on your environment paths.)
     // IMPORTANT: There needs to be spaces at the end of my_cmd and 
     // the beginning of my_cmd_end, as the filename will be inserted 
     // between these two expressions.
