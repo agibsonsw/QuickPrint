@@ -76,7 +76,10 @@ class QuickPrint(sublime_plugin.WindowCommand):
             else:
                 vw_filename = vw_base
             vw_filename = vw_filename.replace(' ', '_')
-            vw_filename = tempfile.gettempdir() + os.sep + vw_filename
+            if PLATFORM == "osx":
+                vw_filename = "/tmp/" + vw_filename
+            else:
+                vw_filename = tempfile.gettempdir() + os.sep + vw_filename
             vw_filename = vw_filename.replace('\\', '\\\\')
             tempf = open(vw_filename, 'w')
             x = 0; page = 1
