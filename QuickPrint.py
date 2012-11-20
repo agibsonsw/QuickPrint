@@ -127,9 +127,14 @@ class QuickPrint(sublime_plugin.WindowCommand):
             elif PLATFORM == "osx":
                 # lp -d <queue name> <name of document>
                 # lp <name of document> will send to default printer(?)
+
+                # Print a text file with 12 characters per inch, 8 lines 
+                # per inch, and a 1 inch left margin:
+                # lp -d bar -o cpi=12 -o lpi=8 -o page-left=72 filename
                 if QUEUE is not False:
                     subprocess.call("lp -d " + QUEUE + " " + vw_filename)
                 else:
+                    print(vw_filename)
                     subprocess.call("lp " + vw_filename)
             elif PLATFORM == "linux":
                 if QUEUE is not False:
