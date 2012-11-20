@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import sublime, sublime_plugin
 import socket, os, subprocess, tempfile, sys
 
@@ -132,10 +133,10 @@ class QuickPrint(sublime_plugin.WindowCommand):
                 # per inch, and a 1 inch left margin:
                 # lp -d bar -o cpi=12 -o lpi=8 -o page-left=72 filename
                 if QUEUE is not False:
-                    subprocess.call("lp -d " + QUEUE + " " + vw_filename)
+                    subprocess.call("/usr/bin/lp -d " + QUEUE + " " + vw_filename)
                 else:
                     print(vw_filename)
-                    subprocess.call("lp " + vw_filename)
+                    subprocess.call("/usr/bin/lp " + vw_filename)
             elif PLATFORM == "linux":
                 if QUEUE is not False:
                     subprocess.call("lpr -P " + QUEUE + " " + vw_filename)
