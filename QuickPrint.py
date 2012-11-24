@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 import sublime, sublime_plugin
 import socket, os, subprocess, tempfile, sys
 
@@ -135,8 +134,16 @@ class QuickPrint(sublime_plugin.WindowCommand):
                 if QUEUE is not False:
                     subprocess.call("/usr/bin/lp -d " + QUEUE + " " + vw_filename)
                 else:
-                    print(vw_filename)
-                    subprocess.call("/usr/bin/lp " + vw_filename)
+                    try:
+                        subprocess.call("/usr/bin/lp " + vw_filename)
+                    except subprocess.CalledProcessError:
+                        try:
+                            subprocess.call("/usr/bin/lp -d _default " + \
+                                vw_filename)
+                        except:
+                            sublime.status_message('Problem talking to printer.')
+                    except:
+                        sublime.status_message('A system error occurred.')
             elif PLATFORM == "linux":
                 if QUEUE is not False:
                     subprocess.call("lpr -P " + QUEUE + " " + vw_filename)
