@@ -4,6 +4,9 @@ to add blank lines at the top or bottom, indent from
 the left, start with the filename and add page or 
 line numbers.
 
+NB I do not know if this works on anything other 
+than Windows - feedback is required!
+
 [Note: On Windows the Console will flash open 
 on occasion.]
 [.txt files are added to the users' TEMP folder 
